@@ -5,7 +5,36 @@
     <title>Title</title>
 </head>
 <body>
-    <div id="test"></div>
+    <div id="board">
+    </div>
+    <div id="menu-board">
+        <ul>
+            <li id="create-post">새로운 포스트잇</li>
+            <li id="sort-post">포스트잇 정렬하기</li>
+            <li id="clear-post">전체 삭제</li>
+        </ul>
+    </div>
     <script src="./dist/bundle.js" defer></script>
 </body>
 </html>
+
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    #board {
+        width:100%;
+        min-height: 100%;
+        background-color: lightgray;
+    }
+    #menu-board {
+        display: none;
+        position: absolute;
+        width : 200px;
+        border : 1px solid black;
+    }
+</style>

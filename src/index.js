@@ -1,6 +1,8 @@
-const square = n => {
-    return n*n+1
-}
+import { disableBrowerContextMenu } from './view'
+import board from './view/board'
+import boardMenu from './view/boardMenu'
 
-document.querySelector("#test").innerHTML= "123123qw1qwe11asd123123e"
+disableBrowerContextMenu()
+board.init()
+boardMenu.init()
 
