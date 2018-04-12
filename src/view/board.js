@@ -3,14 +3,14 @@ import boardMenu from './boardMenu'
 import contextMenu from './contextMenu'
 
 export default {
-    el: $('#board'),
+    $el: $('#board'),
     init () {
         this.bindOnBoardClick()
-        this.bindOnBoardChange()
+        // this.bindOnBoardChange()
     },
-    bindOnBoardClick() {
-        this.el.mousedown((e) => {
-            if( e.button === 2 ) {
+    bindOnBoardClick () {
+        this.$el.mousedown((e) => {
+            if ( e.button === 2 ) {
                 boardMenu.show(e.pageX, e.pageY)
             } else {
                 boardMenu.hide()
@@ -18,9 +18,9 @@ export default {
             }
         })
     },
-    bindOnBoardChange () {
-        this.el.on('changeBoard', (e) => {
-            console.log('changeBoard', e)
-        })
-    }
+    // bindOnBoardChange () {
+    //     this.el.on('changeBoard', (e) => {
+    //         console.log('changeBoard', e)
+    //     })
+    // }
 }

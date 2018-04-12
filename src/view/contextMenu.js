@@ -3,7 +3,8 @@ import post from './post'
 import posts from '../model/postList'
 
 export default {
-    el: $('#menu-context'),
+    $el: $('#menu-context'),
+    post: {},
     position : {
         top: 0,
         left: 0,
@@ -14,33 +15,50 @@ export default {
     show (x, y) {
         this.setX(x)
         this.setY(y)
-        this.el.show()
+        this.$el.show()
     },
     hide (){
-        this.el.hide()
+        this.$el.hide()
     },
     setX (x) {
-        this.el.css('left', x)
+        this.$el.css('left', x)
     },
     setY (y) {
-        this.el.css('top', y)
+        this.$el.css('top', y)
     },
     bindClickMenu () {
-        this.el.mousedown((e) => {
-            if (e.target.id === 'create-post' ) this.createPostHandler(e)
-            else if (e.target.id === 'sort-post' ) this.sortPostHandler()
-            else if (e.target.id === 'clear-post' ) this.clearPostHandler()
-            this.el.hide()
+        $('#change-bg-color', this.$el).change((e) => {
+            this.changeBgColor(e)
+        })
+
+        $('#change-font-size', this.$el).change((e) => {
+            this.changeFontSize(e)
+        })
+
+        $('#change-font-color', this.$el).change((e) => {
+            this.changeFontColor(e)
+        })
+        const $btnExpandEl = $('#btn-expand', this.$el)
+        $btnExpandEl.click((e) => {
+            if (post.expand) {
+                $btnExpandEl.html('접기')
+            }
+            else {
+                $btnExpandEl.html('펼치기')
+            }
+        })
+
+        $('#btn-remove', this.$el).click((e) => {
+            posts.removePost(this.post)
         })
     },
-    createPostHandler(e) {
-        post.createPost(e.pageY, e.pageX)
+    changeBgColor(e) {
+        console.log(e.target.value)
     },
-    sortPostHandler () {
-        posts.sort()
+    changeFontSize (e) {
+        console.log(e.target.value)
     },
-    clearPostHandler () {
-        console.log('clearPostHandler')
-        posts.clearPosts()
-    }
+    changeFontColor (e) {
+        console.log(e.target.value)
+    },
 }
