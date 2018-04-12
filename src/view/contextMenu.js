@@ -3,7 +3,7 @@ import post from './post'
 import posts from '../model/postList'
 
 export default {
-    el: $('#menu-board'),
+    el: $('#menu-context'),
     position : {
         top: 0,
         left: 0,

@@ -14,16 +14,50 @@
             <li id="clear-post">전체 삭제</li>
         </ul>
     </div>
+    <div id="menu-context">
+        서식 조정 기능
+        <hr>
+        <ul>
+            <li id="">배경 색상 변경</li>
+            <li id="">글자 크기 선택</li>
+            <li id="">글자 색상 변경</li>
+        </ul>
+        <hr>
+            <span>펼치기</span>
+        <hr>
+            <input type="number"> 초 후 삭제
+        <hr>
+            <span>삭제하기</span>
+    </div>
     <script src="./dist/bundle.js" defer></script>
 </body>
 </html>
 
 
 <style>
-    html, body {
+
+    * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+        font-size: 12px;
+    }
+
+    html, body {
         height: 100%;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    textarea {
+        border: none;
+        outline: none;
+    }
+
+    .right {
+        float: right;
     }
 
     #board {
@@ -36,5 +70,49 @@
         position: absolute;
         width : 200px;
         border : 1px solid black;
+    }
+
+    #menu-context {
+        display: none;
+        position: absolute;
+        top:0;
+        left:0;
+        width: 200px;
+        border : 1px solid black;
+    }
+
+    /* post */
+    .post {
+        width: 250px;
+        height: 200px;
+        min-height: 30px;
+        min-width: 250px;
+        background: yellow;
+        position:absolute;
+        top: 100px;
+        left: 100px;
+        resize: both;
+        overflow: auto;
+        border : 1px solid black;
+    }
+
+    .post .post-title {
+        height: 15px;
+        border-bottom: 1px solid black;
+        padding-right: 5px;
+    }
+
+    .post .post-content {
+    }
+
+    .post .post-textarea {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        margin: 0 8px;
+        resize: none;
+        width: calc(100% - 16px);
+        height: calc(100% - 15px);
+        background: inherit;
     }
 </style>
