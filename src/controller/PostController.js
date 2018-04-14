@@ -1,11 +1,8 @@
 import posts from '../models/Posts'
 
-class PostController {
+export default class PostController {
 
-  constructor () {
-  }
-
-  set (view, model) {
+  constructor (model, view) {
     this.model = model
     this.view = view
 
@@ -63,12 +60,11 @@ class PostController {
   }
 
   changeFontSize(size) {
-
+    this.model.fontSize = size
   }
 
   changeFontColor (color) {
-
+    this.model.fontcolor = color
   }
 }
 
-export default new PostController()

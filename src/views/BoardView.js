@@ -7,30 +7,17 @@ export default class BoardView {
     constructor () {
         this.$el = $('#board')
         this.boardMenu = new boardMenu()
-        contextMenu.init()
+        this.contextMenu = new contextMenu()
         this.disableBrowserContextMenu()
         this.bindClickBoard()
     }
 
     render (postView) {
-      this.$el.append(postView.$el)
+      this.$el.append(postView.render().$el)
     }
-
-    // addOne (post) {
-    //     const view = new PostView(post)
-    //     this.$el.append(view.render().$el)
-    // }
-    //
-    // addAll (posts) {
-    //     posts.forEach((post) => {
-    //         this.addOne(post)
-    //     })
-    // }
-
     clear () {
         this.$el.html('')
     }
-
     sort (posts) {
         const $boardWidth = this.$el.width()
         let top = 10, left = 20, maxHeight = top;
@@ -55,7 +42,7 @@ export default class BoardView {
                 this.boardMenu.show(e.pageX, e.pageY)
             } else {
                 this.boardMenu.hide()
-                contextMenu.hide()
+                this.contextMenu.hide()
             }
         })
     }

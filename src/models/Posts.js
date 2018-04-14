@@ -13,7 +13,7 @@ class Posts {
 
   update (posts) {
     this.posts = posts
-    this.savePost()
+    this.savePosts()
   }
 
   remove (post) {

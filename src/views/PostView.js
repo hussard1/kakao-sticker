@@ -4,9 +4,9 @@ import contextMenu from "./ContextMenuView";
 
 export default class PostView {
 
-    constructor(post) {
+    constructor(post, contextMenu) {
         this.post = post
-      this.contextMenu = contextMenu
+        this.contextMenu = contextMenu
     }
 
     render () {
@@ -153,9 +153,9 @@ export default class PostView {
             if( e.button === 2 ) {
                 e.stopPropagation()
                 // contextMenu.postView = this
-                contextMenu.show(e.pageX, e.pageY)
+              this.contextMenu.show(e.pageX, e.pageY)
             } else {
-                contextMenu.hide()
+              this.contextMenu.hide()
             }
         })
     }

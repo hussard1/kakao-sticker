@@ -15,18 +15,18 @@ export default class BoardController {
     this.render()
   }
 
-  addPost (top, left) {
-    this.model.add(new Post(top, left))
-    this.render()
-  }
-
   render () {
     let postView;
     this.model.posts.forEach(post => {
-      postView = new PostView(post).render()
-      postController.set(postView, post)
+      postView = new PostView(post, this.view.contextMenu)
       this.view.render(postView)
+      new postController(post, postView)
     })
+  }
+
+  addPost (top, left) {
+    this.model.add(new Post(top, left))
+    this.render()
   }
 
   clearPost () {
