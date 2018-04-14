@@ -9,7 +9,7 @@
     </div>
     <div id="menu-board">
         <ul>
-            <li id="create-post">새로운 포스트잇</li>
+            <li id="add-post">새로운 포스트잇</li>
             <li id="sort-post">포스트잇 정렬하기</li>
             <li id="clear-post">전체 삭제</li>
         </ul>
@@ -75,6 +75,7 @@
         background-color: lightgray;
     }
 
+    /* menu */
     #menu-board {
         display: none;
         position: absolute;
@@ -89,6 +90,8 @@
         left:0;
         width: 150px;
         border : 1px solid black;
+        background-color: white;
+        z-index: 9999;
     }
 
     /* post */
@@ -110,9 +113,6 @@
         height: 15px;
         border-bottom: 1px solid black;
         padding-right: 5px;
-    }
-
-    .post .post-content {
     }
 
     .post .post-textarea {

@@ -1,7 +1,7 @@
 import _ from 'lodash'
-import posts from './postList'
+import posts from './Posts'
 
-const defaultState = {
+const defaults = {
     id: '',
     expand: true,
     position: {
@@ -11,26 +11,26 @@ const defaultState = {
     width: 240,
     height: 200,
     content: '',
-    order: 0
+    order: 0,
+    color: 'black',
+    fontSize: 12,
+    backgroundColor: 'yellow'
 }
 
 export default class Post {
+
     constructor (top, left) {
-        _.assignIn(this, defaultState)
+        _.assignIn(this, defaults)
         this.create(top, left)
     }
 
-    create (top, left) {
+    create (top = 0, left = 0) {
         this.id = this.uniqueId()
-        this.setPostPosition(top, left)
-        posts.add(this)
-    }
-
-    setPostPosition (top = 0, left = 0) {
         this.position = {
             top,
             left
         }
+        // this.order = posts.getLastOrder() + 1
     }
 
     uniqueId () {

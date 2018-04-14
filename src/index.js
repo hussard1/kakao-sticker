@@ -1,12 +1,6 @@
-import { disableBrowerContextMenu } from './view'
-import board from './view/board'
-import boardMenu from './view/boardMenu'
-import contextMenu from './view/contextMenu'
-import posts from './model/postList'
+import BoardController from './controller/BoardController';
+import BoardView from './views/BoardView'
+import Posts from './models/Posts'
 
-disableBrowerContextMenu()
-board.init()
-boardMenu.init()
-posts.init()
-contextMenu.init()
+new BoardController(new Posts(), new BoardView())
 
