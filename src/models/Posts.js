@@ -8,7 +8,6 @@ class Posts {
 
   add (post) {
     this.posts.push(post)
-    this.savePosts()
   }
 
   update (posts) {

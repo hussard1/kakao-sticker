@@ -11,6 +11,7 @@ export default class BoardView {
     this.posts = posts
     this.$el = $('#board')
     this.boardMenu = new boardMenu()
+    //TODO
     this.boardMenu.bindAddPost(this)
     this.boardMenu.bindClearPost(this.clearPost.bind(this))
     this.boardMenu.bindSortPost(this.sortPost.bind(this))
@@ -28,6 +29,7 @@ export default class BoardView {
       postView.bindClickTitle(this.posts.getLastOrder.bind(this.posts))
       postView.bindDragTitle(this.$el)
       postView.bindRemovePost(this.removePost.bind(this))
+      //TODO
       postView.posts = this.posts
     })
   }
@@ -44,18 +46,18 @@ export default class BoardView {
   sortPost () {
     const $boardWidth = this.$el.width()
     const $boardHeight = this.$el.height()
-    let marginLeft = 0, marginTop = 0,
+    let marginLeft = 10, marginTop = 10,
       top = marginTop,
       left = marginLeft
 
     this.posts.posts.forEach(post => {
-      post.width = 240
-      post.height = 200
+      post.width = 250
+      post.height = 240
       post.position = {
         top,
         left
       }
-      left = left + post.width + 20
+      left = left + post.width + marginLeft
       if ($boardWidth <= left + post.width) {
         left = marginLeft
         top = top + post.height
