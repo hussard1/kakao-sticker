@@ -13,7 +13,6 @@ class Posts {
 
   update (posts) {
     this.posts = posts
-    this.savePosts()
   }
 
   remove (post) {
@@ -22,22 +21,12 @@ class Posts {
         this.posts.splice(i, 1)
       }
     })
-    this.savePosts()
   }
 
   getLastOrder () {
     if (this.isEmpty()) return 0
     else return _.maxBy(this.posts, p => p.order).order
   }
-
-  // savePost (post = {}) {
-  //   this.posts.forEach(p => {
-  //     if (p.id === post.id) {
-  //       p = post
-  //     }
-  //   })
-  //   this.savePosts()
-  // }
 
   savePosts () {
     localStorage.setItem('posts', JSON.stringify(this.posts))
@@ -49,8 +38,7 @@ class Posts {
   }
 
   clear () {
-    this.posts = []
-    this.savePosts()
+    this.posts.length = []
   }
 
   isEmpty () {

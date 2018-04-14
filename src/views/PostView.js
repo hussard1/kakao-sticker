@@ -1,12 +1,11 @@
 import $ from 'jquery'
-import boardView from './BoardView'
 import contextMenu from "./ContextMenuView";
 
 export default class PostView {
 
-    constructor(post, contextMenu) {
+    constructor(post) {
         this.post = post
-        this.contextMenu = contextMenu
+        this.render()
     }
 
     render () {
@@ -25,59 +24,75 @@ export default class PostView {
             </div>`)
 
         this.setStyle()
+        this.bindResize ()
         this.bindContextMenu()
-
-        return this
+        this.bindToggleTitle()
+        this.bindChangeContents()
+        this.ToggleTitleHandler()
     }
 
     setStyle () {
-        this.$el.css({
+      const $textarea = $('textarea', this.$el);
+
+      this.$el.css({
             top: this.post.position.top,
             left: this.post.position.left,
             width: this.post.width,
             height: this.post.height,
             'z-index': this.post.order,
-            'background-color': this.post.backgroundColor,
-            color: this.post.fontColor,
+            'background-color': this.post.backgroundColor
         })
+
+      $textarea.css({
+        fontSize: Number(this.post.fontSize),
+        color: this.post.fontColor
+      })
+
     }
 
-    bindResize (handler) {
+    bindResize () {
         this.$el.bind('mouseup',(e) => {
-          handler(this.$el.width(), this.$el.height())
+          this.post.width = this.$el.width()
+          this.post.height = this.$el.height()
         });
     }
 
-    bindClick (handler) {
+    bindClickTitle (lastOrder) {
         this.$el.on('mousedown', (e) => {
-            handler()
+          let last = lastOrder()
+          if (last > this.post.order) {
+            this.post.order = last + 1
+            this.$el.css('z-index', this.post.order)
+          }
         })
     }
 
-    bindDragTitle(handler) {
+    bindDragTitle($boardViewEl) {
         const $titleEl = $('.post-title', this.$el)
         let draggingEl,
             draggingPosition = {},
             top, left,
             postOffset
 
-        this.$el.on('mousemove', (e) => {
+        $boardViewEl.on('mousemove', (e) => {
             if (draggingEl) {
                 top = e.pageY - draggingPosition.top
                 left = e.pageX - draggingPosition.left
-                if (this.isInsideScreen(top, left)) {
+                if (this.isInsideScreen(top, left, $boardViewEl)) {
                     draggingEl.offset({
                         top,
                         left
                     })
                     postOffset = this.$el.offset()
-                    handler(postOffset.top, postOffset.left)
+                    this.post.position = {
+                        top: postOffset.top,
+                        left: postOffset.left
+                    }
                 }
             }
         })
 
         $titleEl.mousedown((e) => {
-            console.log(e)
             if( e.button === 1 || e.button === 0) {
                 draggingEl = this.$el
                 draggingPosition.top = e.pageY - this.$el.offset().top
@@ -85,22 +100,21 @@ export default class PostView {
             }
         })
 
-        this.$el.on('mouseup', (e) => {
+        $boardViewEl.on('mouseup', (e) => {
             draggingEl = null
         })
     }
 
-    isInsideScreen (top, left) {
-        const boardWidth =  boardView.$el.width()
-        const boardHeight =  boardView.$el.height()
+    isInsideScreen (top, left, $boardViewEl) {
+        const boardWidth =  $boardViewEl.width()
+        const boardHeight =  $boardViewEl.height()
         return (top >= 0 && left >= 0 && left + this.$el.width()  <= boardWidth && top + this.$el.height() <= boardHeight)
     }
 
-    bindToggleTitle (handler) {
+    bindToggleTitle () {
         const $btnExpand = $('.post-title .btn-expand', this.$el);
         $btnExpand.click((e) => {
             this.post.expand = !this.post.expand
-            handler(this.post.expand)
             this.ToggleTitleHandler()
         })
     }
@@ -109,8 +123,8 @@ export default class PostView {
         const $btnExpand = $('.post-title .btn-expand', this.$el);
         const $postContent = $('.post-content', this.$el);
         const $titleText = $('.text-title', this.$el);
-        const $textarea = $('textarea', $postContent);
         const $btnExpandEl = $('#btn-expand', this.$el)
+        const $textarea = $('textarea', this.$el)
 
         if (this.post.expand) {
             $btnExpand.html(`&#8679`)
@@ -132,19 +146,17 @@ export default class PostView {
 
     }
 
-    bindRemovePost () {
+    bindRemovePost (handler) {
         const $btnClose = $('.post-title .btn-remove', this.$el);
         $btnClose.click((e) => {
-            posts.removePost(this.post)
-            this.$el.remove()
+          handler(this.post)
         })
     }
 
-    bindChangeContents (handler) {
+    bindChangeContents () {
         const $textarea = $('.post-content textarea', this.$el);
         $textarea.bind('input propertychange', (e) => {
             this.post.content = e.target.value
-            handler(this.post.content)
         })
     }
 
@@ -152,11 +164,42 @@ export default class PostView {
         this.$el.mousedown((e) => {
             if( e.button === 2 ) {
                 e.stopPropagation()
-                // contextMenu.postView = this
-              this.contextMenu.show(e.pageX, e.pageY)
+                contextMenu.bindChangeBgColor(this.changeColor.bind(this))
+                contextMenu.bindChangeFontSize(this.changeFontSize.bind(this))
+                contextMenu.bindChangeFontColor(this.changeFontColor.bind(this))
+                contextMenu.bindRemovePost(this.removePost.bind(this))
+                contextMenu.bindExpandPost(this.expandPost.bind(this))
+                contextMenu.show(e.pageX, e.pageY, this.post)
             } else {
-              this.contextMenu.hide()
+              contextMenu.hide()
             }
         })
     }
+
+  changeColor (color) {
+    this.post.backgroundColor = color
+    this.$el.css('background-color', color)
+  }
+
+  changeFontSize(size) {
+    this.post.fontSize = Number(size)
+    const $textarea = $('textarea', this.$el);
+    $textarea.css({
+      'fontSize': Number(size)
+    })
+  }
+
+  changeFontColor(color) {
+    const $textarea = $('textarea', this.$el);
+    this.post.fontcolor = color
+    $textarea.css('color', color)
+  }
+
+  removePost() {
+    this.posts.remove(this.post)
+  }
+
+  expandPost() {
+    this.ToggleTitleHandler()
+  }
 }

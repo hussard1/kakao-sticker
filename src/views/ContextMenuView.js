@@ -1,19 +1,17 @@
 import $ from 'jquery'
 import posts from '../models/Posts'
 
-export default class ContextMenu{
+class ContextMenu {
 
     constructor () {
         this.$el = $('#menu-context')
-        this.bindRemovePost()
-        this.bindExpandPost()
     }
 
-    show (x, y) {
+    show (x, y, post) {
         this.setX(x)
         this.setY(y)
         this.$el.show()
-        this.setBtnExpand()
+        this.setBtnExpand(post)
     }
     hide (){
         this.$el.hide()
@@ -24,9 +22,9 @@ export default class ContextMenu{
     setY (y) {
         this.$el.css('top', y)
     }
-    setBtnExpand () {
+    setBtnExpand (post) {
         const $btnExpandEl = $('#btn-expand', this.$el)
-        this.postView.post.expand ? $btnExpandEl.html('접기') : $btnExpandEl.html('펼치기')
+        post.expand ? $btnExpandEl.html('접기') : $btnExpandEl.html('펼치기')
     }
     bindChangeBgColor(handler) {
       $('#change-bg-color', this.$el).change((e) => {
@@ -43,18 +41,20 @@ export default class ContextMenu{
         handler(e.target.value)
       })
     }
-    bindRemovePost () {
+    bindRemovePost (handler, post) {
         const $btnRemove = $('#btn-remove', this.$el);
         $btnRemove.click((e) => {
-            // posts.removePost(this.postView.post)
+            handler(post)
             this.$el.hide()
         })
     }
-    bindExpandPost () {
+    bindExpandPost (handler) {
         const $btnExpandEl = $('#btn-expand', this.$el)
         $btnExpandEl.click((e) => {
-            // this.postView.ToggleTitleHandler()
+            handler()
             this.$el.hide()
         })
     }
 }
+
+export default new ContextMenu()

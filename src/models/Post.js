@@ -19,18 +19,18 @@ const defaults = {
 
 export default class Post {
 
-    constructor (top, left) {
+    constructor (top, left, order) {
         _.assignIn(this, defaults)
-        this.create(top, left)
+        this.create(top, left, order)
     }
 
-    create (top = 0, left = 0) {
+    create (top = 0, left = 0, order = 0) {
         this.id = this.uniqueId()
         this.position = {
             top,
             left
         }
-        // this.order = posts.getLastOrder() + 1
+        this.order = order
     }
 
     uniqueId () {

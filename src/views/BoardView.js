@@ -1,53 +1,90 @@
 import $ from 'jquery'
 import boardMenu from './BoardMenuView'
 import contextMenu from './ContextMenuView'
+import PostView from './PostView'
+import Post from '../models/Post'
+import controller from '../controller/Controller'
 
 export default class BoardView {
 
-    constructor () {
-        this.$el = $('#board')
-        this.boardMenu = new boardMenu()
-        this.contextMenu = new contextMenu()
-        this.disableBrowserContextMenu()
-        this.bindClickBoard()
-    }
+  constructor (posts) {
+    this.posts = posts
+    this.$el = $('#board')
+    this.boardMenu = new boardMenu()
+    this.boardMenu.bindAddPost(this)
+    this.boardMenu.bindClearPost(this.clearPost.bind(this))
+    this.boardMenu.bindSortPost(this.sortPost.bind(this))
+    this.disableBrowserContextMenu()
+    this.bindClickBoard()
+    this.render()
+  }
 
-    render (postView) {
-      this.$el.append(postView.render().$el)
-    }
-    clear () {
-        this.$el.html('')
-    }
-    sort (posts) {
-        const $boardWidth = this.$el.width()
-        let top = 10, left = 20, maxHeight = top;
-        posts.forEach(post => {
-            post.position = {
-                left,
-                top
-            }
-            left = left + post.width + 20
-            maxHeight = Math.max(maxHeight, post.height)
-            if ($boardWidth <= left + post.width) {
-                left = 20
-                top = maxHeight + 20
-            }
-        })
-        this.clear()
-    }
+  render () {
+    this.clear()
+    let postView
+    this.posts.posts.forEach(post => {
+      postView = new PostView(post)
+      this.$el.append(postView.$el)
+      postView.bindClickTitle(this.posts.getLastOrder.bind(this.posts))
+      postView.bindDragTitle(this.$el)
+      postView.bindRemovePost(this.removePost.bind(this))
+      postView.posts = this.posts
+    })
+  }
 
-    bindClickBoard () {
-        this.$el.mousedown((e) => {
-            if ( e.button === 2 ) {
-                this.boardMenu.show(e.pageX, e.pageY)
-            } else {
-                this.boardMenu.hide()
-                this.contextMenu.hide()
-            }
-        })
-    }
+  clear () {
+    this.$el.html('')
+  }
 
-    disableBrowserContextMenu () {
-        $(document).bind("contextmenu", () => false)
-    }
+  clearPost () {
+    this.posts.clear()
+    this.clear()
+  }
+
+  sortPost () {
+    const $boardWidth = this.$el.width()
+    const $boardHeight = this.$el.height()
+    let marginLeft = 0, marginTop = 0,
+      top = marginTop,
+      left = marginLeft
+
+    this.posts.posts.forEach(post => {
+      post.width = 240
+      post.height = 200
+      post.position = {
+        top,
+        left
+      }
+      left = left + post.width + 20
+      if ($boardWidth <= left + post.width) {
+        left = marginLeft
+        top = top + post.height
+      }
+
+      if (top + post.height > $boardHeight) {
+        top = marginTop
+        left = marginLeft
+      }
+    })
+    this.render()
+  }
+
+  bindClickBoard () {
+    this.$el.mousedown((e) => {
+      if (e.button === 2) {
+        this.boardMenu.show(e.pageX, e.pageY)
+      } else {
+        this.boardMenu.hide()
+        contextMenu.hide()
+      }
+    })
+  }
+
+  removePost (post) {
+    this.posts.remove(post)
+  }
+
+  disableBrowserContextMenu () {
+    $(document).bind('contextmenu', () => false)
+  }
 }
