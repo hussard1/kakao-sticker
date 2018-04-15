@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import posts from '../models/Posts'
 
 const defaultSettings = {
 

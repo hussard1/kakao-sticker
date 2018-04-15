@@ -1,6 +1,4 @@
 import $ from 'jquery'
-import posts from '../models/Posts'
-import Post from '../models/Post'
 
 export default class BoardMenuView {
 

@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import posts from './Posts'
 
 const defaults = {
     id: '',

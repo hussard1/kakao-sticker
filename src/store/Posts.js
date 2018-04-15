@@ -3,7 +3,7 @@ import _ from 'lodash'
 class Posts {
 
   constructor () {
-    this.posts = this.getPosts()
+    this.posts = this.get()
   }
 
   add (post) {
@@ -27,11 +27,11 @@ class Posts {
     else return _.maxBy(this.posts, p => p.order).order
   }
 
-  savePosts () {
+  save () {
     localStorage.setItem('posts', JSON.stringify(this.posts))
   }
 
-  getPosts () {
+  get () {
     const posts = localStorage.getItem('posts')
     return JSON.parse(posts) || []
   }
