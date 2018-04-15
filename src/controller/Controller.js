@@ -11,7 +11,7 @@ export default class Controller {
     })
     this.ps.posts = this.proxied(this.ps.posts)
     this.boardView = new BoardView(this.ps)
-    this.boardView.addPost = this.addPost.bind(this)
+    this.boardView.addPostOnBoard = this.addPost.bind(this)
   }
 
   proxied (posts) {
@@ -34,6 +34,5 @@ export default class Controller {
 
   addPost(top, height) {
     this.ps.add(this.proxied(new Post(top, height, this.ps.getLastOrder())))
-
   }
 }

@@ -11,8 +11,7 @@ export default class BoardView {
     this.posts = posts
     this.$el = $('#board')
     this.boardMenu = new boardMenu()
-    //TODO
-    this.boardMenu.bindAddPost(this)
+    this.boardMenu.bindAddPost(this.addPost.bind(this))
     this.boardMenu.bindClearPost(this.clearPost.bind(this))
     this.boardMenu.bindSortPost(this.sortPost.bind(this))
     this.disableBrowserContextMenu()
@@ -32,6 +31,21 @@ export default class BoardView {
       //TODO
       postView.posts = this.posts
     })
+  }
+
+  addPost (top, left) {
+    const boardWidth = this.$el.width()
+    const boardHeight = this.$el.height()
+
+    if (left + 250 >= boardWidth) {
+       left = boardWidth - 250
+    }
+
+    if (top + 240 >= boardHeight) {
+      top = boardHeight - 240
+    }
+    //TODO
+    this.addPostOnBoard(top, left)
   }
 
   clear () {

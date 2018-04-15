@@ -27,11 +27,12 @@ export default class BoardMenuView {
     this.$el.css('top', y)
   }
 
-  bindAddPost (boardView) {
+  bindAddPost (handler) {
     $('#add-post', this.$el).click((e) => {
-      boardView.addPost(e.pageY, e.pageX)
+      handler(e.pageY, e.pageX)
     })
   }
+
 
   bindClearPost (handler) {
     $('#clear-post', this.$el).click((e) => {

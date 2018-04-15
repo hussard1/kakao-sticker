@@ -52,6 +52,7 @@ export default class PostView {
 
   bindResize () {
     this.$el.bind('mouseup', (e) => {
+      if (!this.post.expand) return
       this.post.width = this.$el.width()
       this.post.height = this.$el.height()
     })
@@ -114,7 +115,6 @@ export default class PostView {
   bindToggleTitle () {
     const $btnExpand = $('.post-title .btn-expand', this.$el)
     $btnExpand.click((e) => {
-      console.log(123123123)
       this.post.expand = !this.post.expand
       this.ToggleTitleHandler()
     })
@@ -131,7 +131,7 @@ export default class PostView {
     if (this.post.expand) {
       $btnExpand.html(`&#8679`)
       this.$el.css('min-height', '30px')
-      this.$el.height(240)
+      this.$el.css('height', this.post.height)
       this.$el.css('resize', 'both')
       $postTitle.css('border-bottom', '1px solid black')
       $postContent.show()
@@ -143,7 +143,6 @@ export default class PostView {
       this.$el.height(15)
       this.$el.css('resize', 'none')
       $postTitle.css('border-bottom', 'none')
-
       $postContent.hide()
       $titleText.html($textarea.val().split('\n')[0])
       $btnExpandEl.html('펼치기')
@@ -166,47 +165,13 @@ export default class PostView {
   }
 
   bindContextMenu () {
-    contextMenu.bindChangeBgColor(this.changeColor.bind(this))
-    contextMenu.bindChangeFontSize(this.changeFontSize.bind(this))
-    contextMenu.bindChangeFontColor(this.changeFontColor.bind(this))
-    contextMenu.bindRemovePost(this.removePost.bind(this))
-    contextMenu.bindExpandPost(this.expandPost.bind(this))
     this.$el.mousedown((e) => {
       if (e.button === 2) {
+        contextMenu.show(e.pageX, e.pageY, this)
         e.stopPropagation()
-        //TODO
-        contextMenu.show(e.pageX, e.pageY, this.post)
       } else {
         contextMenu.hide()
       }
     })
-  }
-
-  changeColor (color) {
-    this.post.backgroundColor = color
-    this.$el.css('background-color', color)
-  }
-
-  changeFontSize (size) {
-    this.post.fontSize = Number(size)
-    const $textarea = $('textarea', this.$el)
-    $textarea.css({
-      'fontSize': Number(size)
-    })
-  }
-
-  changeFontColor (color) {
-    const $textarea = $('textarea', this.$el)
-    this.post.fontcolor = color
-    $textarea.css('color', color)
-  }
-
-  removePost () {
-    this.posts.remove(this.post)
-  }
-
-  expandPost () {
-    this.post.expand = !this.post.expand
-    this.ToggleTitleHandler()
   }
 }

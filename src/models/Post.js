@@ -12,9 +12,9 @@ const defaults = {
     height: 200,
     content: '',
     order: 0,
-    color: 'black',
+    color: '#000000',
     fontSize: 12,
-    backgroundColor: 'yellow'
+    backgroundColor: '#fffb00'
 }
 
 export default class Post {
