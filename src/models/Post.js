@@ -4,8 +4,8 @@ const defaults = {
     id: '',
     expand: true,
     position: {
-        top : 0,
-        left : 0
+        top: 0,
+        left: 0
     },
     width: 240,
     height: 200,
@@ -18,12 +18,12 @@ const defaults = {
 
 export default class Post {
 
-    constructor (top, left, order) {
+    constructor(top, left, order) {
         _.assignIn(this, defaults)
         this.create(top, left, order)
     }
 
-    create (top = 0, left = 0, order = 0) {
+    create(top = 0, left = 0, order = 0) {
         this.id = this.uniqueId()
         this.position = {
             top,
@@ -32,7 +32,7 @@ export default class Post {
         this.order = order
     }
 
-    uniqueId () {
+    uniqueId() {
         return Date.now() + Math.floor(Math.random() * 26)
     }
 }
