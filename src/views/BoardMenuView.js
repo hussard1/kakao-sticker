@@ -26,26 +26,26 @@ export default class BoardMenuView {
   }
 
   bindAddPost (handler) {
-    $('#add-post', this.$el).click((e) => {
+    $('#add-post', this.$el).on('mousedown', (e) => {
       handler(e.pageY, e.pageX)
     })
   }
 
 
   bindClearPost (handler) {
-    $('#clear-post', this.$el).click((e) => {
+    $('#clear-post', this.$el).on('mousedown', (e) => {
       handler()
     })
   }
 
   bindSortPost (handler) {
-    $('#sort-post', this.$el).click((e) => {
+    $('#sort-post', this.$el).on('mousedown', (e) => {
       handler()
     })
   }
 
   bindClickMenu () {
-    this.$el.click((e) => {
+    this.$el.on('mousedown', (e) => {
       this.$el.hide()
     })
   }

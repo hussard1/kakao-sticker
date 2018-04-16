@@ -79,7 +79,7 @@ class ContextMenu {
 
     bindRemovePost() {
         const $btnRemove = $('#btn-remove', this.$el)
-        $btnRemove.click((e) => {
+        $btnRemove.on('mousedown', (e) => {
             this.postView.removePost(this.post)
             this.$el.hide()
         })
@@ -87,7 +87,7 @@ class ContextMenu {
 
     bindExpandPost() {
         const $btnExpandEl = $('#btn-expand', this.$el)
-        $btnExpandEl.click((e) => {
+        $btnExpandEl.on('mousedown', (e) => {
             this.post.expand = !this.post.expand
             this.postView.ToggleTitleHandler()
             this.$el.hide()
